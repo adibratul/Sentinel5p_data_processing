@@ -1,0 +1,74 @@
+Download : Dhaka lat 23.8103N  Long 90.4125E
+Delhi lat 28.7041N, Long 77.1925 E
+		
+
+bin spatial trick
+Lat1 = 23.40
+Lat2= 24.05
+Res=  0.0001
+
+
+lon1= 90.00
+lon2= 90.70
+
+L2-L1/Res
+
+
+harpconvert -a 'latitude>23.47 [degree_north]; latitude<24.10 [degree_north]; bin_spatial(630,23.40,0.001,630,90.00,0.001); derive(latitude{latitude}); derive(longitude{longitude})' S5P_OFFL_L2__NO2____20200107T054447_20200107T072617_11575_01_010302_20200108T223625.nc S5_L3
+
+
+after this experiment no we can cut down the file as per our Study area output product 
+
+Then we add nc file to qgis. at that time we have to choose only subset no 7 and clip with shapefile if needed. 
+
+So our next task will be 
+
+
+##No2#####
+harpconvert -a 'latitude>23.47 [degree_north]; latitude<24.10 [degree_north]; tropospheric_NO2_column_number_density_validity > 75; bin_spatial(650,23.40,0.001,630,90.00,0.001); derive(latitude{latitude}); derive(longitude{longitude})' S5P_OFFL_L2__NO2____20200907T061802_20200907T075932_15037_01_010302_20200908T232354.nc DHK_NO2_L3_20200907.nc
+
+
+##Aer####
+harpconvert -a 'latitude>23.47 [degree_north]; latitude<24.10 [degree_north]; bin_spatial(650,23.40,0.001,630,90.00,0.001); derive(latitude{latitude}); derive(longitude{longitude})' S5P_OFFL_L2__AER_AI_20200907T061802_20200907T075932_15037_01_010302_20200908T200133.nc DHK_AER_L3_20200907.nc
+
+#visualize on visan 
+wplot(product.latitude.data, product.longitude.data,product.absorbing_aerosol_index.data)
+
+
+
+###SO2####
+harpconvert -a 'latitude>23.47 [degree_north]; latitude<24.10 [degree_north]; SO2_column_number_density_validity>50; bin_spatial(650,23.40,0.001,630,90.00,0.001); derive(latitude{latitude}); derive(longitude{longitude}); derive(SO2_column_number_density [DU])' S5P_OFFL_L2__SO2____20200907T061802_20200907T075932_15037_01_020103_20200909T083427.nc DHK_SO2_L3_20200907.nc
+
+
+###CO#####
+harpconvert -a 'latitude>23.47 [degree_north]; latitude<24.10 [degree_north]; bin_spatial(650,23.40,0.001,630,90.00,0.001); derive(latitude{latitude}); derive(longitude{longitude});derive(CO_column_number_density)' S5P_OFFL_L2__CO_____20200907T061802_20200907T075932_15037_01_010302_20200908T200129.nc DHK_CO_L3_20200907.nc
+
+
+
+
+
+####################################################DELHI############################################## 
+####CO####
+harpconvert -a 'latitude>28.39 [degree_north]; latitude<28.89 [degree_north]; bin_spatial(650,28.39,0.001,650,76.80,0.001); derive(latitude{latitude}); derive(longitude{longitude});derive(CO_column_number_density)' S5P_OFFL_L2__CO_____20201221T064117_20201221T082247_16527_01_010400_20201224T030132.nc DEL_CO_L3_20201221.nc
+
+
+Lat 1 =28.39
+Lat 2 = 28.89
+res= 0.001
+lon1=76.80 
+lon2=77.35
+
+
+l2-l1/res
+
+####NO2####
+harpconvert -a 'latitude>28.39 [degree_north]; latitude<28.89 [degree_north]; tropospheric_NO2_column_number_density_validity > 75; bin_spatial(650,28.39,0.001,650,76.80,0.001); derive(latitude{latitude}); derive(longitude{longitude})' S5P_OFFL_L2__NO2____20201214T071303_20201214T085433_16428_01_010400_20201216T010144.nc DEL_NO2_L3_20201214.nc
+
+
+####SO2####
+harpconvert -a 'latitude>28.39 [degree_north]; latitude<28.89 [degree_north]; SO2_column_number_density_validity>50; bin_spatial(650,28.39,0.001,650,76.80,0.001); derive(latitude{latitude}); derive(longitude{longitude}); derive(SO2_column_number_density [DU])' S5P_OFFL_L2__SO2____20200907T075932_20200907T094101_15038_01_020103_20200909T101600.nc DEL_SO2_L3_20200907_1.nc
+
+
+
+####AER####
+harpconvert -a 'latitude>28.39 [degree_north]; latitude<28.89 [degree_north]; bin_spatial(650,28.39,0.001,650,76.80,0.001); derive(latitude{latitude}); derive(longitude{longitude})' S5P_OFFL_L2__AER_AI_20201214T071303_20201214T085433_16428_01_010400_20201215T210318.nc DEL_AER_L3_20201214.nc
